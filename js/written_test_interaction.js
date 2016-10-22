@@ -47,7 +47,7 @@ $(function(){
             $('#main_test_content_0').append('<p id="main_test_content_item_' + (i + item.type[0]) + '">' + item.jianda[i][1] + '</p>');
             $('#main_test_content_content_0').append('<textarea class="main_test_content_explain" id="main_test_content_explain_' + (i + item.type[0]) + '" placeholder="写出你的答案和思路٩(◦`꒳´◦)۶"></textarea>');
             $('#main_menu_0').append('<p id="main_menu_grade_' + (i + item.type[0]) + '"><span>试题难度 :</span> <span class="stnandu"></span></p>');
-            $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0">' + (i + 1) + '</span>');
+            $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0">' + (i + item.type[0] + 1) + '</span>');
         }
         $('main_menu_item_list_id_0').addClass('item_2');
         for (var i = 0; i < item.type[1]; i++) {
@@ -66,7 +66,6 @@ $(function(){
         for (var i = 0; i < item.type[1]; i++) {
             for (var j = 0; j < item.jianda[i][2]; j++) {
                 $('#main_menu_grade_' + (i + item.type[0]) + ' .stnandu').append('<img src="images/star-on.png" alt="grade">');
-                console.log(i + item.type[0]);
             }
         }
         for (var i = 0; i < item.type[2]; i++) {
@@ -82,6 +81,40 @@ $(function(){
             $('#main_test_content_explain_' + i + '').hide();
             $('#main_menu_grade_' + i + '').hide();
         }
+        //menu_0
+        $('#main_menu_item_list_0 span').click(function () {
+            $('#main_test_content_content_0 textarea').each(function () { //checked textArea value
+                $(this).val() && $('#main_menu_item_list_0 span').eq($(this).index()).addClass('item_1');
+            });
+            $('#main_menu_item_list_0 span').removeClass('item_2');
+            $(this).addClass('item_2');
+            $('#main_test_content_title_0 h2').hide();
+            $('#main_test_content_title_0 h2').eq($(this).index()).show();
+            $('#main_test_content_0 p').hide();
+            $('#main_test_content_0 p').eq($(this).index()).show();
+            $('#main_test_content_content_0 textarea').hide();
+            $('#main_test_content_content_0 textarea').eq($(this).index()).show();
+            $('#main_menu_0 p').hide();
+            $('#main_menu_0 p').eq($(this).index()).show();
+            num = $(this).index();
+        });
+        //menu_1
+        $('#main_menu_item_list_1 span').click(function () {
+            $('#main_test_content_content_1 textarea').each(function () { //checked textArea value
+                $(this).val() && $('#main_menu_item_list_1 span').eq($(this).index()).addClass('item_1');
+            });
+            $('#main_menu_item_list_1 span').removeClass('item_2');
+            $(this).addClass('item_2');
+            $('#main_test_content_title_1 h2').hide();
+            $('#main_test_content_title_1 h2').eq($(this).index()).show();
+            $('#main_test_content_1 p').hide();
+            $('#main_test_content_1 p').eq($(this).index()).show();
+            $('#main_test_content_content_1 textarea').hide();
+            $('#main_test_content_content_1 textarea').eq($(this).index()).show();
+            $('#main_menu_1 p').hide();
+            $('#main_menu_1 p').eq($(this).index()).show();
+            num_1 = $(this).index();
+        });
     };
     //submit
     $('#submit_1').click(function(){
@@ -141,40 +174,6 @@ $(function(){
             $('#main_menu_item_list_1 span').removeClass('item_2');
             $($('#main_menu_item_list_1 span')[num_1]).addClass('item_2');//set menu of easyAnswer
         }
-    });
-    //menu_0
-        $('#main_menu_item_list_0 span').click(function(){
-            $('#main_test_content_content_0 textarea').each(function(){ //checked textArea value
-                $(this).val()&&$('#main_menu_item_list_0 span').eq($(this).index()).addClass('item_1');
-            });
-            $('#main_menu_item_list_0 span').removeClass('item_2');
-            $(this).addClass('item_2');
-            $('#main_test_content_title_0 h2').hide();
-            $('#main_test_content_title_0 h2').eq($(this).index()).show();
-            $('#main_test_content_0 p').hide();
-            $('#main_test_content_0 p').eq($(this).index()).show();
-            $('#main_test_content_content_0 textarea').hide();
-            $('#main_test_content_content_0 textarea').eq($(this).index()).show();
-            $('#main_menu_0 p').hide();
-            $('#main_menu_0 p').eq($(this).index()).show();
-            num = $(this).index();
-        });
-    //menu_1
-    $('#main_menu_item_list_1 span').click(function(){
-        $('#main_test_content_content_1 textarea').each(function(){ //checked textArea value
-            $(this).val()&&$('#main_menu_item_list_1 span').eq($(this).index()).addClass('item_1');
-        });
-        $('#main_menu_item_list_1 span').removeClass('item_2');
-        $(this).addClass('item_2');
-        $('#main_test_content_title_1 h2').hide();
-        $('#main_test_content_title_1 h2').eq($(this).index()).show();
-        $('#main_test_content_1 p').hide();
-        $('#main_test_content_1 p').eq($(this).index()).show();
-        $('#main_test_content_content_1 textarea').hide();
-        $('#main_test_content_content_1 textarea').eq($(this).index()).show();
-        $('#main_menu_1 p').hide();
-        $('#main_menu_1 p').eq($(this).index()).show();
-        num_1 = $(this).index();
     });
     $('#submit_2').click(function(){
         var data = [
