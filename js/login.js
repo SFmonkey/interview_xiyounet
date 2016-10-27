@@ -5,9 +5,13 @@ $(function(){
     $('#username').focus(function(){
         $('.login_content_form span').remove();
     });
+    $('#suNumber').focus(function () {
+        $('.login_content_form span').remove();
+    });
     $('#btn').click(function(){
         $('.login_content_form span').remove();
         var username = $('#username').val();
+        var suNumber = $('#suNumber').val();
         $.ajax({
             url:'demo_login.php',
             type:'GET',
@@ -15,7 +19,8 @@ $(function(){
             async:true,
             dataType:'json',
             data:{
-              username:username
+                username: username,
+                suNumber: suNumber
             },
             success:function(data){
                 judgeUser(data);
