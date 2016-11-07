@@ -13,35 +13,40 @@ window.onload = function(){
         if(time>=1800){
             alert("考试结束，系统将自动保存你的答案，请等待面试结果");
             clearInterval(timer);
+            var answer_1 = [];
+            var answer_2 = [];
+            var data = [
+                getUrlParams()
+            ];
+            var a =1;
+            var b =1;
             if($('#item_1').is(':visible')){
-                var answer_1 = [];
                 $('#main_test_content_0 p').each(function(){
                     answer_1.push($(this).text());
                 });
                 $('#main_test_content_content_0 textarea').each(function(){
-                    answer_1.push($(this).val()) ;
+                    answer_2.push($(this).val()) ;
                 });
-                $.ajax({
-                    url:'demo_answer_1.php',
-                    type:'GET',
-                    cache:false,
-                    async:true,
-                    dataType:'json',
-                    data:{
-                        answer_1:answer_1
-                    },
-                    success:function(){
-                        window.location.href="http://localhost/interview/login.html";
-                    }
-                })
             }else{
-                var answer_2 = [];
+                $('#main_test_content_0 p').each(function(){
+                    answer_1.push($(this).text());
+                });
+                $('#main_test_content_content_0 textarea').each(function(){
+                    answer_2.push($(this).val()) ;
+                });
                 $('#main_test_content_1 p').each(function(){
-                    answer_2.push($(this).text());
+                    answer_1.push($(this).text());
                 });
                 $('#main_test_content_content_1 textarea').each(function(){
                     answer_2.push($(this).val()) ;
                 });
+                while(a){
+                    a = answer_1.shift();
+                    b = answer_2.shift();
+                    var tran={};
+                    tran[a]=b;
+                    data.push(tran);
+                }
                 $.ajax({
                     url:'demo_answer_2.php',
                     type:'GET',
