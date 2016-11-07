@@ -37,27 +37,32 @@ $(function(){
     var transfer = function (item) {
         for (var i = 0; i < item.type[0]; i++) {
             $('#main_test_content_title_0').append('<h2 id="main_test_content_title_name_' + i + '">' + (i + 1) + '.' + item.tiankong[i][0] + '</h2>');
-            $('#main_test_content_0').append('<p id="main_test_content_item_' + i + '">' + item.tiankong[i][1] + '</p>');
+            $('#main_test_content_0').append('<div id="main_test_content_item_' + i + '">' + item.tiankong[i][1] + '</div>');
             $('#main_test_content_content_0').append('<textarea class="main_test_content_explain" id="main_test_content_explain_' + i + '" placeholder="写出你的答案和思路٩(◦`꒳´◦)۶"></textarea>');
             $('#main_menu_0').append('<p id="main_menu_grade_' + i + '"><span>试题难度 :</span> <span class="stnandu"></span></p>');
-            $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0">' + (i + 1) + '</span>');
+            $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0_' + i + '">' + (i + 1) + '</span>');
         }
         for (var i = 0; i < item.type[1]; i++) {
             $('#main_test_content_title_0').append('<h2 id="main_test_content_title_name_' + (i + item.type[0]) + '">' + (i + item.type[0] + 1) + '.' + item.jianda[i][0] + '</h2>');
-            $('#main_test_content_0').append('<p id="main_test_content_item_' + (i + item.type[0]) + '">' + item.jianda[i][1] + '</p>');
+            $('#main_test_content_0').append('<div id="main_test_content_item_' + (i + item.type[0]) + '">' + item.jianda[i][1] + '</div>');
             $('#main_test_content_content_0').append('<textarea class="main_test_content_explain" id="main_test_content_explain_' + (i + item.type[0]) + '" placeholder="写出你的答案和思路٩(◦`꒳´◦)۶"></textarea>');
             $('#main_menu_0').append('<p id="main_menu_grade_' + (i + item.type[0]) + '"><span>试题难度 :</span> <span class="stnandu"></span></p>');
-            $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0">' + (i + item.type[0] + 1) + '</span>');
+            $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0_' + i + '">' + (i + item.type[0] + 1) + '</span>');
         }
-        $('main_menu_item_list_id_0').addClass('item_2');
-        for (var i = 0; i < item.type[1]; i++) {
+        $('#main_test_content_title_0').append('<h2 id="main_test_content_title_name_6"> ∞.技能树 </h2>');
+        $('#main_test_content_0').append('<div id="main_test_content_item_6">网协期待每一个对技术怀有无限热忱的你，这道题，你可以向我们展示你的技能树。</div>');
+        $('#main_test_content_content_0').append('<textarea class="main_test_content_explain" id="main_test_content_explain_6" placeholder="跪拜大神 ORZ"></textarea>');
+        $('#main_menu_0').append('<p id="main_menu_grade_6"><span>试题难度 :</span> <span class="stnandu"><img src="images/star-on.png" alt="grade"><img src="images/star-on.png" alt="grade"><img src="images/star-on.png" alt="grade"></span></p>');
+        $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0_6">1024</span>');
+        $('#main_menu_item_list_id_0_0').addClass('item_2');
+        for (var i = 0; i < item.type[2]; i++) {
             $('#main_test_content_title_1').append('<h2 id="main_test_content_title_name_1_' + i + '">' + (i + 1) + '.' + item.biancheng[i][0] + '</h2>');
-            $('#main_test_content_1').append('<p id="main_test_content_item_1_' + i + '">' + item.biancheng[i][1] + '</p>');
+            $('#main_test_content_1').append('<div id="main_test_content_item_1_' + i + '">' + item.biancheng[i][1] + '</div');
             $('#main_test_content_content_1').append('<textarea class="main_test_content_explain" id="main_test_content_explain_1_' + i + '" placeholder="写出你的答案和思路٩(◦`꒳´◦)۶"></textarea>');
             $('#main_menu_1').append('<p id="main_menu_grade_1_' + i + '"><span>试题难度 :</span> <span class="stnandu"></span></p>');
-            $('#main_menu_item_list_1').append('<span id="main_menu_item_list_id_0">' + (i + 1) + '</span>');
+            $('#main_menu_item_list_1').append('<span id="main_menu_item_list_id_1_' + i + '">' + (i + 1) + '</span>');
         }
-        $('main_menu_item_list_id_1').addClass('item_2');
+        $('#main_menu_item_list_id_1_0').addClass('item_2');
         for (var i = 0; i < item.type[0]; i++) {
             for (var j = 0; j < item.tiankong[i][2]; j++) {
                 $('#main_menu_grade_' + i + ' .stnandu').append('<img src="images/star-on.png" alt="grade">');
@@ -75,7 +80,7 @@ $(function(){
         }
         $('#item_2').hide();
         $('#aside_2').hide();
-        for (var i = 1; i < 6; i++) {
+        for (var i = 1; i < 7; i++) {
             $('#main_test_content_title_name_' + i + '').hide();
             $('#main_test_content_item_' + i + '').hide();
             $('#main_test_content_explain_' + i + '').hide();
@@ -90,8 +95,10 @@ $(function(){
             $(this).addClass('item_2');
             $('#main_test_content_title_0 h2').hide();
             $('#main_test_content_title_0 h2').eq($(this).index()).show();
-            $('#main_test_content_0 p').hide();
-            $('#main_test_content_0 p').eq($(this).index()).show();
+            $('#main_test_content_0 div').hide();
+            $('#main_test_content_0 div').eq($(this).index()).show();
+            $('#main_test_content_answer_0 input').hide();
+            $('#main_test_content_answer_0 input').eq($(this).index()).show();
             $('#main_test_content_content_0 textarea').hide();
             $('#main_test_content_content_0 textarea').eq($(this).index()).show();
             $('#main_menu_0 p').hide();
@@ -132,8 +139,8 @@ $(function(){
             $('#main_test_content_explain_1_'+i+'').hide();
             $('#main_menu_grade_1_'+i+'').hide();
         }
-        $('#main_test_content_0 p').each(function(){
-            answer_1.push($(this).text());
+        $('#main_test_content_0 div').each(function () {
+            answer_1.push($(this).html());
         });
         $('#main_test_content_content_0 textarea').each(function(){
            answer_2.push($(this).val()) ;
@@ -141,7 +148,7 @@ $(function(){
     });
     //next_0
     $('#nextItem_1').click(function(){
-        if(++num < 6) {
+        if (++num < 7) {
             $('#main_test_content_title_name_'+num+'').prev().hide();//set next title of easyAnswer
             $('#main_test_content_title_name_'+num+'').show();
             $('#main_test_content_item_'+num+'').prev().hide();//set next content of easyAnswer
@@ -176,11 +183,15 @@ $(function(){
         }
     });
     $('#submit_2').click(function(){
+        var result = confirm("你确定提交第二部分吗？");
+        if (result == false) {
+            return;
+        }
         var data = [
             getUrlParams()
         ];
-        $('#main_test_content_1 p').each(function(){
-            answer_1.push($(this).text());
+        $('#main_test_content_1 div').each(function () {
+            answer_1.push($(this).html());
         });
         $('#main_test_content_content_1 textarea').each(function(){
             answer_2.push($(this).val()) ;
@@ -201,7 +212,7 @@ $(function(){
         }
         $.ajax({
             url:'demo_answer_2.php',
-            type:'GET',
+            type: 'post',
             cache:false,
             async:true,
             dataType:'json',
