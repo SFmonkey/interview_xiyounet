@@ -4,13 +4,17 @@
 window.onload = function(){
     var hour,min,second;
     var timepiece = document.getElementById('timepiece');
+    if (sessionStorage.startTime) {
+        time = (new Date().getTime() - sessionStorage.startTime) / 1000;
+    } else {
+        time = 0;
+    }
     timer = setInterval(updateTime,1000);
-    time = 0;
     function format(time){
         return time.toString().replace(/^(\d)$/,'0$1');
     }
     function updateTime(){
-        if(time>=1800){
+        if (time >= 3600) {
             alert("考试结束，系统将自动保存你的答案，请等待面试结果");
             clearInterval(timer);
             var answer_1 = [];
@@ -52,7 +56,7 @@ window.onload = function(){
                     type:'GET',
                     cache:false,
                     async:true,
-                    dataType:'json',
+                    dataType: 'post',
                     data:{
                         answer_2:answer_2
                     },

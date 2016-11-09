@@ -6,8 +6,6 @@ $(function(){
     var num_1 = 0;
     var answer_1 = [];
     var answer_2 = [];
-    var session_answer_1 = [];
-    var session_answer_2 = [];
     function getUrlParams(url) {
         if (!url) {
             url = window.location.href;
@@ -42,8 +40,8 @@ $(function(){
         }
         $('#main_test_content_title_0').append('<h2 id="main_test_content_title_name_6"> ∞.技能树 </h2>');
         $('#main_test_content_0').append('<div id="main_test_content_item_6">网协期待每一个对技术怀有无限热忱的你，这道题，你可以向我们展示你的技能树。</div>');
-        $('#main_test_content_content_0').append('<textarea class="main_test_content_explain" id="main_test_content_explain_6" placeholder="跪拜大神 ORZ"></textarea>');
-        $('#main_menu_0').append('<p id="main_menu_grade_6"><span>试题难度 :</span> <span class="stnandu"><img src="images/star-on.png" alt="grade"><img src="images/star-on.png" alt="grade"><img src="images/star-on.png" alt="grade">' + item.answer[6] + '</span></p>');
+        $('#main_test_content_content_0').append('<textarea class="main_test_content_explain" id="main_test_content_explain_6" placeholder="跪拜大神 ORZ">' + item.answer[6] + '</textarea>');
+        $('#main_menu_0').append('<p id="main_menu_grade_6"><span>试题难度 :</span> <span class="stnandu"><img src="images/star-on.png" alt="grade"><img src="images/star-on.png" alt="grade"><img src="images/star-on.png" alt="grade"></span></p>');
         $('#main_menu_item_list_0').append('<span id="main_menu_item_list_id_0_6">1024</span>');
         $('#main_menu_item_list_id_0_0').addClass('item_2');
         for (var i = 0; i < item.type[2]; i++) {
@@ -69,14 +67,33 @@ $(function(){
                 $('#main_menu_grade_1_' + i + ' .stnandu').append('<img src="images/star-on.png" alt="grade">');
             }
         }
-        $('#item_2').hide();
-        $('#aside_2').hide();
-        for (var i = 1; i < 7; i++) {
-            $('#main_test_content_title_name_' + i + '').hide();
-            $('#main_test_content_item_' + i + '').hide();
-            $('#main_test_content_explain_' + i + '').hide();
-            $('#main_menu_grade_' + i + '').hide();
+        $('#main_test_content_content_0 textarea').each(function () { //checked textArea value
+            $(this).val() && $('#main_menu_item_list_0 span').eq($(this).index()).addClass('item_1');
+        });
+        $('#main_test_content_content_1 textarea').each(function () { //checked textArea value
+            $(this).val() && $('#main_menu_item_list_1 span').eq($(this).index()).addClass('item_1');
+        });
+        if (!JSON.parse(sessionStorage.flag)) {
+            $('#item_2').hide();
+            $('#aside_2').hide();
+            for (var i = 1; i < 7; i++) {
+                $('#main_test_content_title_name_' + i + '').hide();
+                $('#main_test_content_item_' + i + '').hide();
+                $('#main_test_content_explain_' + i + '').hide();
+                $('#main_menu_grade_' + i + '').hide();
+            }
         }
+        else {
+            $('#item_1').hide();
+            $('#aside_1').hide();
+            for (var i = 1; i < 2; i++) {
+                $('#main_test_content_title_name_1_' + i + '').hide();
+                $('#main_test_content_item_1_' + i + '').hide();
+                $('#main_test_content_explain_1_' + i + '').hide();
+                $('#main_menu_grade_1_' + i + '').hide();
+            }
+        }
+
         //menu_0
         $('#main_menu_item_list_0 span').click(function () {
             $('#main_test_content_content_0 textarea').each(function () { //checked textArea value
@@ -105,10 +122,11 @@ $(function(){
             $('#main_test_content_content_1 textarea').each(function () { //checked textArea value
                 $(this).val() && $('#main_menu_item_list_1 span').eq($(this).index()).addClass('item_1');
                 if ($(this).val()) {
-                    item.answer[$(this).index()] = $(this).val();
+                    item.answer[$(this).index() + 7] = $(this).val();
                 }
             });
             sessionStorage.answer = JSON.stringify(item.answer);
+            console.log(sessionStorage.answer);
             $('#main_menu_item_list_1 span').removeClass('item_2');
             $(this).addClass('item_2');
             $('#main_test_content_title_1 h2').hide();
@@ -124,9 +142,10 @@ $(function(){
     };
     if (sessionStorage.data) {
         var object = JSON.parse(sessionStorage.data);
+        object.answer = [];
         object.answer = JSON.parse(sessionStorage.answer);
         transfer(object);
-        console.log('session');
+        console.log(sessionStorage.answer);
     } else {
         $.ajax({
             url: 'demo_item.php',
@@ -137,6 +156,10 @@ $(function(){
             success: function (data) {
                 data.answer = ['', '', '', '', '', '', '', '', ''];
                 sessionStorage.data = JSON.stringify(data);
+                sessionStorage.answer = JSON.stringify(data.answer);
+                sessionStorage.flag = false;
+                sessionStorage.name = getUrlParams().username;
+                sessionStorage.startTime = new Date().getTime();
                 transfer(data);
             }
         });
@@ -163,6 +186,7 @@ $(function(){
         $('#main_test_content_content_0 textarea').each(function(){
            answer_2.push($(this).val()) ;
         });
+        sessionStorage.flag = true;
     });
     //next_0
     $('#nextItem_1').click(function(){
@@ -216,7 +240,7 @@ $(function(){
             return;
         }
         var data = [
-            getUrlParams()
+            {username: sessionStorage.name}
         ];
         $('#main_test_content_1 div').each(function () {
             answer_1.push($(this).html());
@@ -241,8 +265,6 @@ $(function(){
         $.ajax({
             url:'demo_answer_2.php',
             type: 'post',
-            cache:false,
-            async:true,
             dataType:'json',
             data:{
                 answer:data
@@ -250,6 +272,9 @@ $(function(){
             success:function(){
                 alert("考试结束!");
                 window.location.href="http://localhost/interview/login.html";
+            },
+            error: function () {
+                console.log(1);
             }
         })
     });
