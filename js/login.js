@@ -40,6 +40,9 @@ $(function(){
     var judgeUser = function(data){
         if(data==1){
             var username = $('#username').val();
+            if (localStorage.name && username != localStorage.name) {
+                localStorage.clear();
+            }
             var url = 'http://localhost/interview/written_test.html?username='+ username ;
             window.location.href=url;
         }else if(data==2){
