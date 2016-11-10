@@ -73,7 +73,7 @@ $(function(){
         $('#main_test_content_content_1 textarea').each(function () { //checked textArea value
             $(this).val() && $('#main_menu_item_list_1 span').eq($(this).index()).addClass('item_1');
         });
-        if (!JSON.parse(sessionStorage.flag)) {
+        if (!JSON.parse(localStorage.flag)) {
             $('#item_2').hide();
             $('#aside_2').hide();
             for (var i = 1; i < 7; i++) {
@@ -102,7 +102,7 @@ $(function(){
                     item.answer[$(this).index()] = $(this).val();
                 }
             });
-            sessionStorage.answer = JSON.stringify(item.answer);
+            localStorage.answer = JSON.stringify(item.answer);
             $('#main_menu_item_list_0 span').removeClass('item_2');
             $(this).addClass('item_2');
             $('#main_test_content_title_0 h2').hide();
@@ -125,8 +125,8 @@ $(function(){
                     item.answer[$(this).index() + 7] = $(this).val();
                 }
             });
-            sessionStorage.answer = JSON.stringify(item.answer);
-            console.log(sessionStorage.answer);
+            localStorage.answer = JSON.stringify(item.answer);
+            console.log(localStorage.answer);
             $('#main_menu_item_list_1 span').removeClass('item_2');
             $(this).addClass('item_2');
             $('#main_test_content_title_1 h2').hide();
@@ -140,12 +140,12 @@ $(function(){
             num_1 = $(this).index();
         });
     };
-    if (sessionStorage.data) {
-        var object = JSON.parse(sessionStorage.data);
+    if (localStorage.data) {
+        var object = JSON.parse(localStorage.data);
         object.answer = [];
-        object.answer = JSON.parse(sessionStorage.answer);
+        object.answer = JSON.parse(localStorage.answer);
         transfer(object);
-        console.log(sessionStorage.answer);
+        console.log(localStorage.answer);
     } else {
         $.ajax({
             url: 'demo_item.php',
@@ -155,11 +155,11 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 data.answer = ['', '', '', '', '', '', '', '', ''];
-                sessionStorage.data = JSON.stringify(data);
-                sessionStorage.answer = JSON.stringify(data.answer);
-                sessionStorage.flag = false;
-                sessionStorage.name = getUrlParams().username;
-                sessionStorage.startTime = new Date().getTime();
+                localStorage.data = JSON.stringify(data);
+                localStorage.answer = JSON.stringify(data.answer);
+                localStorage.flag = false;
+                localStorage.name = getUrlParams().username;
+                localStorage.startTime = new Date().getTime();
                 transfer(data);
             }
         });
@@ -180,13 +180,7 @@ $(function(){
             $('#main_test_content_explain_1_'+i+'').hide();
             $('#main_menu_grade_1_'+i+'').hide();
         }
-        $('#main_test_content_0 div').each(function () {
-            answer_1.push($(this).html());
-        });
-        $('#main_test_content_content_0 textarea').each(function(){
-           answer_2.push($(this).val()) ;
-        });
-        sessionStorage.flag = true;
+        localStorage.flag = true;
     });
     //next_0
     $('#nextItem_1').click(function(){
@@ -206,7 +200,7 @@ $(function(){
                     answer[$(this).index()] = $(this).val();
                 }
             });
-            sessionStorage.answer = JSON.stringify(answer);
+            localStorage.answer = JSON.stringify(answer);
             $('#main_menu_item_list_0 span').removeClass('item_2');
             $($('#main_menu_item_list_0 span')[num]).addClass('item_2');//set menu of easyAnswer
         }
@@ -229,7 +223,7 @@ $(function(){
                     answer[$(this).index()] = $(this).val();
                 }
             });
-            sessionStorage.answer = JSON.stringify(answer);
+            localStorage.answer = JSON.stringify(answer);
             $('#main_menu_item_list_1 span').removeClass('item_2');
             $($('#main_menu_item_list_1 span')[num_1]).addClass('item_2');//set menu of easyAnswer
         }
@@ -240,8 +234,14 @@ $(function(){
             return;
         }
         var data = [
-            {username: sessionStorage.name}
+            {username: localStorage.name}
         ];
+        $('#main_test_content_0 div').each(function () {
+            answer_1.push($(this).html());
+        });
+        $('#main_test_content_content_0 textarea').each(function () {
+            answer_2.push($(this).val());
+        });
         $('#main_test_content_1 div').each(function () {
             answer_1.push($(this).html());
         });
@@ -266,15 +266,17 @@ $(function(){
             url:'demo_answer_2.php',
             type: 'post',
             dataType:'json',
+            contentType: 'application/json',
             data:{
                 answer:data
             },
             success:function(){
                 alert("考试结束!");
                 window.location.href="http://localhost/interview/login.html";
+                localStorage.clear();
             },
             error: function () {
-                console.log(1);
+                console.log('XHR error');
             }
         })
     });
